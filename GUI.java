@@ -55,6 +55,14 @@ public class GUI extends JFrame {
 
     private void openFile() {
         JFileChooser fileChooser = new JFileChooser();
+
+        // For testing purposes will be opened to specific folder for ease of test
+        // Set the initial directory to the user's desktop
+        String userHome = System.getProperty("user.home");
+        File desktopDirectory = new File(userHome, "Desktop/JavaExampleFiles");
+        fileChooser.setCurrentDirectory(desktopDirectory);
+        // End of specific folder selection
+
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Java Files", "java");
         fileChooser.setFileFilter(filter);
 

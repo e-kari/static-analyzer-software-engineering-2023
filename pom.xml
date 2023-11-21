@@ -20,6 +20,20 @@
             <artifactId>javaparser-symbol-solver-core</artifactId>
             <version>3.25.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
+        <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>10.12.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sourceforge.pmd/pmd -->
+        <dependency>
+            <groupId>net.sourceforge.pmd</groupId>
+            <artifactId>pmd</artifactId>
+            <version>7.0.0-rc4</version>
+            <type>pom</type>
+        </dependency>
+
 
     </dependencies>
 

@@ -71,6 +71,8 @@ public class GUI extends JFrame {
             File selectedFile = fileChooser.getSelectedFile();
             String code = readJavaFile(selectedFile);
             codeTextArea.setText(code);
+            Parser parser = new Parser(selectedFile);
+
         }
     }
 

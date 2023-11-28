@@ -12,6 +12,8 @@ import java.io.IOException;
 public class GUI extends JFrame {
 
     private JTextArea codeTextArea;
+        // string to put all warnings in
+    private String warnings = "";
 
     public GUI() {
         setTitle("Static Analyzer"); // title
@@ -44,13 +46,28 @@ public class GUI extends JFrame {
     }
 
     private void checkRefactoring() {
-        // Implement code analysis for refactoring checks
+            // grab java code text from gui text box
         String code = codeTextArea.getText();
-        // Add your refactoring analysis logic here
-        // Example: Check for variable renaming
-        if (code.contains("oldVariable")) {
-            JOptionPane.showMessageDialog(this, "Potential refactoring: Rename 'oldVariable'");
+
+        // send code to SyntaxError Class as a String
+        SyntaxError synErr = new SyntaxError(code);
+        // return warning messages from syntax check
+        warnings += synErr.performSyntaxCheck();
+
+        // code for line number count
+        // add to warnings message
+
+        // code for scope
+        // add to warnings message
+
+            // case for zero errors being found
+        if (warnings.equalsIgnoreCase("")){
+            warnings = "No errors were found!";
         }
+
+            // return warnings message as a pop-up to user
+        JOptionPane.showMessageDialog(this, warnings);
+
     }
 
     private void openFile() {
@@ -71,7 +88,7 @@ public class GUI extends JFrame {
             File selectedFile = fileChooser.getSelectedFile();
             String code = readJavaFile(selectedFile);
             codeTextArea.setText(code);
-            Parser parser = new Parser(selectedFile);
+            //Parser parser = new Parser(selectedFile);
 
         }
     }

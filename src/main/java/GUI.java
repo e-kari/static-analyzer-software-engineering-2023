@@ -46,19 +46,29 @@ public class GUI extends JFrame {
     }
 
     private void checkRefactoring() {
+
+        // set warnings to empty
+        warnings = "";
             // grab java code text from gui text box
         String code = codeTextArea.getText();
 
         // send code to SyntaxError Class as a String
         SyntaxError synErr = new SyntaxError(code);
         // return warning messages from syntax check
-        warnings += synErr.performSyntaxCheck();
+        String syntaxWarnings = synErr.performSyntaxCheck();
 
         // code for line number count
+
         // add to warnings message
+        String lineCountWarnings = ""; // call method then return string here
 
         // code for scope
+
         // add to warnings message
+        String scopeWarnings = ""; // call method then return string here
+
+            // make sure we have \n on the end of each of our warnings so they read correctly
+        warnings += syntaxWarnings + lineCountWarnings + scopeWarnings;
 
             // case for zero errors being found
         if (warnings.equalsIgnoreCase("")){
@@ -71,6 +81,9 @@ public class GUI extends JFrame {
     }
 
     private void openFile() {
+        // clear text area in case this is replacing an already open file
+        codeTextArea.setText("");
+
         JFileChooser fileChooser = new JFileChooser();
 
         // For testing purposes will be opened to specific folder for ease of test
@@ -88,8 +101,7 @@ public class GUI extends JFrame {
             File selectedFile = fileChooser.getSelectedFile();
             String code = readJavaFile(selectedFile);
             codeTextArea.setText(code);
-            //Parser parser = new Parser(selectedFile);
-
+            addLineNumbers();
         }
     }
 
@@ -104,6 +116,21 @@ public class GUI extends JFrame {
             e.printStackTrace();
         }
         return content.toString();
+    }
+
+    private void addLineNumbers() {
+        String text = codeTextArea.getText();
+        String[] lines = text.split("\n");
+
+        StringBuilder newText = new StringBuilder();
+        for (int i = 0; i < lines.length; i++) {
+            newText.append(i + 1).append("  ").append(lines[i]);
+            if (i < lines.length - 1) {
+                newText.append("\n");
+            }
+        }
+
+        codeTextArea.setText(newText.toString());
     }
 
 

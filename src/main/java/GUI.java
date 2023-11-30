@@ -57,10 +57,10 @@ public class GUI extends JFrame {
         // return warning messages from syntax check
         String syntaxWarnings = synErr.performSyntaxCheck();
 
-        // code for line number count
-
-        // add to warnings message
-        String lineCountWarnings = ""; // call method then return string here
+        // send code to LineCountError as a String
+        LineCountError lcError = new LineCountError(code);
+        // return warning messages from LineCount Error;
+        String lineCountWarnings = lcError.performMethodLengthCheck();
 
         // code for scope
 

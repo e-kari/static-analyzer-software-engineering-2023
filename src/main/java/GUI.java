@@ -7,10 +7,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-//test
 
 public class GUI extends JFrame {
-
+        // where the code will be displayed and be editable
     private JTextArea codeTextArea;
         // string to put all warnings in
     private String warnings = "";
@@ -20,7 +19,7 @@ public class GUI extends JFrame {
         setSize(700, 700); // size of frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // exit when x-button selected
 
-        codeTextArea = new JTextArea();
+        codeTextArea = new JTextArea(); // display editable code
         codeTextArea.setLineWrap(true);
         JScrollPane scrollPane = new JScrollPane(codeTextArea);
 
@@ -100,8 +99,8 @@ public class GUI extends JFrame {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             String code = readJavaFile(selectedFile);
-            codeTextArea.setText(code);
-            addLineNumbers();
+            codeTextArea.setText(code); // display file in text area
+            addLineNumbers(); // line numbers for better referencing later on
         }
     }
 

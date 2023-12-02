@@ -35,12 +35,12 @@ public class LineCountError {
                 stack.push(c); // puts the open bracket into stack
 
             }else if (c == '}') { // if closed bracket
-                if(stack.peek() == '{'){ // checks stack to see if open bracket
+                if(!stack.isEmpty() && stack.peek() == '{'){ // checks stack to see if open bracket
                     stack.pop(); // pops if open bracket
                     if(stack.isEmpty()){
                         warnings += "Method on line " + (lineNumTemp) + " has length of " + (lineNum - lineNumTemp + 1) + " lines\n";
                     }
-                } else if(stack.peek() == '}'){
+                } else if(!stack.isEmpty() && stack.peek() == '}'){
                     stack.push(c);
                 }
             }

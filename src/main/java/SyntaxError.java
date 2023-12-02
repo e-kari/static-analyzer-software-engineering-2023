@@ -9,7 +9,7 @@ public class SyntaxError {
         this.code = code;
     }
 
-    public String performSyntaxCheck(){
+    public String performSyntaxCheck() {
         System.out.println(code);
         checkForUnbalancedSymbols();
         checkForMissingSemi();
@@ -18,10 +18,9 @@ public class SyntaxError {
 
     private void checkForUnbalancedSymbols() {
         Stack<Character> stack = new Stack<>();
-        Stack<Integer> lineNumbers = new Stack<>(); // to store line numbers for pushed symbols
+        Stack<Integer> lineNumbers = new Stack<>();
         int lineNum = 1;
 
-        // loop through string of code
         for (int i = 0; i < code.length(); i++) {
             char c = code.charAt(i);
             if (c == '\n') {
@@ -29,14 +28,12 @@ public class SyntaxError {
                 continue;
             }
 
-            // if char is one of these symbols, push to stack along with the line number
             if (c == '{' || c == '(' || c == '[') {
                 stack.push(c);
                 lineNumbers.push(lineNum);
                 continue;
             }
 
-            // check if the stack is empty before popping
             if (!stack.isEmpty()) {
                 char check;
                 switch (c) {
@@ -65,14 +62,12 @@ public class SyntaxError {
                         break;
                 }
             } else {
-                // If the stack is empty and a closing symbol is encountered, report an error
                 if (c == ')' || c == '}' || c == ']') {
                     warnings += "Unbalanced " + c + " at line " + lineNum + "\n";
                 }
             }
         }
 
-        // Check for remaining unclosed symbols
         while (!stack.isEmpty()) {
             char remaining = stack.pop();
             int startLine = lineNumbers.pop();
@@ -80,9 +75,28 @@ public class SyntaxError {
         }
     }
 
+    private void checkForMissingSemi() {
+        int lineNum = 1;
+        String[] lines = code.split("\n");
 
-    private void checkForMissingSemi(){
-        //warnings += "Line 3 missing semi colon";
+        for (String line : lines) {
+            // account for line numbers and look for comment lines //
+            if (line.matches("^\\d+\\s*//.*")) {
+                lineNum++;
+                continue;
+            }
+
+            // Skip lines with only line numbers (no code)
+            if (!line.matches("^\\d+\\s*$")) {
+                if (!line.trim().endsWith(";") && !line.trim().endsWith("{") && !line.trim().endsWith("}")) {
+                    warnings += "Missing semicolon at line " + lineNum + "\n";
+                }
+            }
+
+            lineNum++;
+        }
     }
+
+
 
 }

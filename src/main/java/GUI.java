@@ -67,7 +67,7 @@ public class GUI extends JFrame {
         // add to warnings message
         String scopeWarnings = ""; // call method then return string here
 
-            // make sure we have \n on the end of each of our warnings so they read correctly
+            // make sure we have \n on the end of each of our warnings, so they read correctly
         warnings += syntaxWarnings + lineCountWarnings + scopeWarnings;
 
             // case for zero errors being found

@@ -10,7 +10,7 @@ public class SyntaxError {
     }
 
     public String performSyntaxCheck() {
-        System.out.println(code); // for debuggin purposes
+        System.out.println(code); // for debugging purposes
         checkForUnbalancedSymbols(); // first method looking for balanced symbols
         checkForMissingSemi(); // method for finding missing semicolons
         return warnings; // return warnings to GUI
@@ -41,7 +41,7 @@ public class SyntaxError {
                         check = stack.pop();
                         int startLine = lineNumbers.pop();
                         if (check == '{' || check == '[') { // should have been ( for no error
-                            warnings += "Unbalanced " + c + " at line " + startLine + "\n"; // report error line #
+                            warnings += "Unbalanced " + check + " at line " + startLine + "\n"; // report error line #
                         }
                         break;
 
@@ -49,7 +49,7 @@ public class SyntaxError {
                         check = stack.pop();
                         startLine = lineNumbers.pop();
                         if (check == '(' || check == '[') { // should have been { for no error
-                            warnings += "Unbalanced " + c + " at line " + startLine + "\n"; // report error line #
+                            warnings += "Unbalanced " + check + " at line " + startLine + "\n"; // report error line #
                         }
                         break;
 
@@ -57,7 +57,7 @@ public class SyntaxError {
                         check = stack.pop();
                         startLine = lineNumbers.pop();
                         if (check == '(' || check == '{') { // should have been [ for no error
-                            warnings += "Unbalanced " + c + " at line " + startLine + "\n"; // report error line #
+                            warnings += "Unbalanced " + check + " at line " + startLine + "\n"; // report error line #
                         }
                         break;
                 }
@@ -79,19 +79,31 @@ public class SyntaxError {
         int lineNum = 1;
         String[] lines = code.split("\n"); // go line by line
 
+        boolean inMultiLineComment = false;
+
         for (String line : lines) {
-            // account for the line numbers that were applied and look for line that are just comments only //
-            if (line.matches("^\\d+\\s*//.*") || line.trim().startsWith("//")
-                    || line.trim().startsWith("/*") || line.trim().endsWith("*/")) {
+            // Skip lines that are just comments or empty
+            if (line.matches("^\\d+\\s*//.*") || line.trim().startsWith("//")) {
                 lineNum++;
                 continue;
             }
+            // Check if the line contains a multi-line comment start ("/*")
+            if (line.contains("/*")) {
+                inMultiLineComment = true;
+            }
 
-            // Skip lines with only line numbers; that is they are just blank lines
-            if (!line.matches("^\\d+\\s*$")) {
+            // Check if the line contains a multi-line comment end ("*/")
+            if (line.contains("*/")) {
+                inMultiLineComment = false;
+                continue;
+            }
+
+            // Skip lines with only line numbers or lines within a multi-line comment
+            if (!inMultiLineComment && !line.matches("^\\d+\\s*$")) {
+                // Check if the line ends with a semicolon, an opening brace, or a closing brace
                 if (!line.trim().endsWith(";") && !line.trim().endsWith("{") && !line.trim().endsWith("}")) {
-                    // line didn't end with any of the above so we may assume a missing semicolon
-                    // add this to our warnings report with the line num
+                    // Line didn't end with any of the above, so we may assume a missing semicolon
+                    // Add this to our warnings report with the line number
                     warnings += "Missing semicolon at line " + lineNum + "\n";
                 }
             }
@@ -99,7 +111,5 @@ public class SyntaxError {
             lineNum++;
         }
     }
-
-
 
 }

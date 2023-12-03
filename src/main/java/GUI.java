@@ -27,7 +27,13 @@ public class GUI extends JFrame {
         openFileButton.addActionListener(e -> openFile());
 
         JButton analyzeButton = new JButton("Analyze");
-        analyzeButton.addActionListener(e -> checkRefactoring());
+        analyzeButton.addActionListener(e -> {
+            try {
+                checkRefactoring();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         // button panel in layout
         JPanel buttonPanel = new JPanel();
@@ -44,12 +50,23 @@ public class GUI extends JFrame {
 
     }
 
-    private void checkRefactoring() {
-
+    private void checkRefactoring() throws IOException {
         // set warnings to empty
         warnings = "";
-            // grab java code text from gui text box
+
+        // grab java code text from gui text box
         String code = codeTextArea.getText();
+
+        // create an instance of VariableShadowingError
+        VariableShadowingError shadowingErr = new VariableShadowingError();
+
+        // Attempt to detect variable shadowing
+        shadowingErr.detectShadowingError(code);
+
+        // If variable shadowing is detected, append the warning to the overall warnings
+        if (shadowingErr.hasShadowingError()) {
+            warnings += shadowingErr.getWarnings() + "\n";
+        }
 
         // send code to SyntaxError Class as a String
         SyntaxError synErr = new SyntaxError(code);
@@ -61,22 +78,19 @@ public class GUI extends JFrame {
         // return warning messages from LineCount Error;
         String lineCountWarnings = lcError.performMethodLengthCheck();
 
-        // code for scope
+        // Append syntax and line count warnings to the overall warnings
+        warnings += syntaxWarnings + lineCountWarnings;
 
-        // add to warnings message
-        String scopeWarnings = ""; // call method then return string here
-
-            // make sure we have \n on the end of each of our warnings, so they read correctly
-        warnings += syntaxWarnings + lineCountWarnings + scopeWarnings;
-
-            // case for zero errors being found
-        if (warnings.equalsIgnoreCase("")){
+        // Display warnings in the GUI
+        if (warnings.isEmpty()) {
             warnings = "No errors were found!";
         }
 
-            // return warnings message as a pop-up to user
+        // Display all warnings in the JOptionPane pop-up
         JOptionPane.showMessageDialog(this, warnings);
 
+        // Clear the warnings for the next analysis
+        warnings = "";
     }
 
     private void openFile() {

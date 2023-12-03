@@ -100,14 +100,12 @@ public class GUI extends JFrame {
         JFileChooser fileChooser = new JFileChooser();
 
         // For testing purposes will be opened to specific folder for ease of test
-        // Set the initial directory to the user's desktop
-        String userHome = System.getProperty("user.home");
-        File desktopDirectory = new File(userHome, "Desktop/JavaExampleFiles");
-        fileChooser.setCurrentDirectory(desktopDirectory);
-        // End of specific folder selection
+        // Set the initial directory to the user directory then the resources
+        String projectDirectory = System.getProperty("user.dir");
+        String resourcesPath = projectDirectory + "/src/main/resources";
 
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Java Files", "java");
-        fileChooser.setFileFilter(filter);
+        File resourcesDirectory = new File(resourcesPath);
+        fileChooser.setCurrentDirectory(resourcesDirectory);
 
         int returnValue = fileChooser.showOpenDialog(this);
         if (returnValue == JFileChooser.APPROVE_OPTION) {

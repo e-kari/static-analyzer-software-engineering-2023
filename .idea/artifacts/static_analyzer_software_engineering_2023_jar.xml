@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="static-analyzer-software-engineering-2023:jar">
+  <artifact type="jar" build-on-make="true" name="static-analyzer-software-engineering-2023:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/static_analyzer_software_engineering_2023_jar</output-path>
     <root id="archive" name="static-analyzer-software-engineering-2023.jar">
       <element id="module-output" name="static-analyzer-software-engineering-2023" />

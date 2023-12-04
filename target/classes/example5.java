@@ -2,11 +2,11 @@ public class example1 {
     public static void main(String[] args) {
         System.out.println("Welcome!");
 
-        int[] numbers = {5, 10};
-        int x = numbers[0;
+        int[] numbers = {5, 10}; // Declare an array and initialize it with values
+        int x = numbers[0];
         int y = numbers[1];
 
-        System.out.println("Sum of x and y is: " + (x + y));
+        System.out.println("Sum of x and y is: " + (x + y)); // Use parentheses to ensure correct addition
 
         if (x > y) {
             System.out.println("x is greater than y");
@@ -17,5 +17,3 @@ public class example1 {
         }
     }
 }
-
-

@@ -1,19 +1,6 @@
-public class example1 {
+public class example5 {
     public static void main(String[] args) {
-        System.out.println("Welcome!");
-
-        int[] numbers = {5, 10}; // Declare an array and initialize it with values
-        int x = numbers[0];
-        int y = numbers[1];
-
-        System.out.println("Sum of x and y is: " + (x + y)); // Use parentheses to ensure correct addition
-
-        if (x > y) {
-            System.out.println("x is greater than y");
-        }
-
-        for (int i = 0; i < 5; i++) {
-            System.out.println("Value of i: " + i);
-        }
+        // No errors
+        System.out.print("This example file should have no errors.\n We're finally done with the project!".);
     }
 }

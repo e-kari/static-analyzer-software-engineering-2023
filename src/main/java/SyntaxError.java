@@ -12,7 +12,9 @@ public class SyntaxError {
     public String performSyntaxCheck() {
         System.out.println(code); // for debugging purposes
         checkForUnbalancedSymbols(); // first method looking for balanced symbols
-        checkForMissingSemi(); // method for finding missing semicolons
+        if(warnings.equalsIgnoreCase("")){ // otherwise will think semicolon goes there if missing symbol
+            checkForMissingSemi(); // method for finding missing semicolons
+        }
         return warnings; // return warnings to GUI
     }
 
